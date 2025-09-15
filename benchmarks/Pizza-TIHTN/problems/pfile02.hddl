@@ -1,0 +1,62 @@
+(define
+    (problem pfile01)
+    (:domain cooking)
+    (:objects
+		fridge - location
+		freezer - location
+		garden - location
+		kitchen - location
+		cellar - location
+		pantry - location
+		hall1 - location
+		hall2 - location
+		hall3 - location
+		salt - ingredient
+		flour - ingredient
+		yeast - ingredient
+		salami - cold-meat
+		canned-tomato-sauce - canned-ingredient
+		mozzarella - cheese
+		oregano - seasoning
+		basil-leaves - fresh-herbs
+		pizza-dough - ingredient
+		tomatoes - vegetable
+		tomato-sauce - sauce
+
+	)
+		(:htn
+               :subtasks (and 
+				(make-pizza-margherita)
+		)
+	)
+	(:init
+		(ingredient-location canned-tomato-sauce pantry)
+		(ingredient-location mozzarella fridge)
+		(ingredient-location salami fridge)
+		(ingredient-location flour pantry)
+		(ingredient-location salt pantry)
+		(ingredient-location yeast fridge)
+		(ingredient-location oregano pantry)
+		(ingredient-location basil-leaves garden)
+		(contains canned-tomato-sauce tomato-sauce)
+		(connected kitchen pantry)
+		(connected pantry kitchen)
+		(connected kitchen hall1)
+		(connected hall1 kitchen)
+		(connected hall1 hall2)
+		(connected hall2 hall1)
+		(connected hall2 garden)
+		(connected garden hall2)
+		(connected hall2 fridge)
+		(connected fridge hall2)
+		(connected hall2 hall3)
+		(connected hall3 hall2)
+		(connected hall3 cellar)
+		(connected cellar hall3)
+		(connected hall3 garden)
+		(connected garden hall3)
+		(connected cellar freezer)
+		(connected freezer cellar)
+		(robot-location kitchen)
+	)
+)

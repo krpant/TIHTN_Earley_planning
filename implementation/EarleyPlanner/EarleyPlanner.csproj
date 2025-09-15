@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>PlanRecognitionExtension</RootNamespace>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject>PlanRecognitionExtension.EntryPoint</StartupObject>
+    <AssemblyTitle>EarleyPlanner</AssemblyTitle>
+    <Product>EarleyPlanner</Product>
+    <Copyright>Copyright ©  2023</Copyright>
+    <AssemblyVersion>1.0.0.0</AssemblyVersion>
+    <FileVersion>1.0.0.0</FileVersion>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CSharp" Version="4.7.0" />
+    <PackageReference Include="System.Data.DataSetExtensions" Version="4.5.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Remove="EarleyParser-DESKTOP-SKFFQ6O.cs" />
+    <Compile Remove="InputReader - kopie.cs" />
+    <Compile Remove="PlanRecognisor - kopie.cs" />
+    <Compile Remove="PlanRecognizerExtended - kopie.cs" />
+    <Compile Remove="Rule - kopie.cs" />
+  </ItemGroup>
+</Project>

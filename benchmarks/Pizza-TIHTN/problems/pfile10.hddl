@@ -1,0 +1,84 @@
+(define
+    (problem pfile01)
+    (:domain cooking)
+    (:objects
+		fridge - location
+		freezer - location
+		garden - location
+		kitchen - location
+		cellar - location
+		pantry - location
+		hall1 - location
+		hall2 - location
+		hall3 - location
+		frozen-dough - frozen-ingredient
+		chicken - meat
+		garlic - vegetable
+		cream - ingredient
+		parmesan - cheese
+		spinach - vegetable
+		canned-tomatoes - canned-ingredient
+		oregano - seasoning
+		pizza-dough - ingredient
+		tomatoes - vegetable
+		salami - cold-meat
+		mozzarella - cheese
+		basil-leaves - fresh-herbs
+		canned-artychokes - canned-ingredient
+		artychokes - vegetable
+		frozen-mushrooms - frozen-ingredient
+		mushrooms - vegetable
+		ham - cold-meat
+		olives - vegetable
+		canned-olives - canned-ingredient
+	)
+		(:htn
+            :subtasks (and 
+				(make-pizza-chicken)
+				(make-pizza-salami)
+				(make-pizza-margherita)
+				(make-pizza-quattro-stagioni)
+		)
+	)
+	(:init
+		(ingredient-location canned-tomatoes pantry)
+		(ingredient-location canned-artychokes pantry)
+		(ingredient-location basil-leaves garden)
+		(ingredient-location parmesan fridge)
+		(ingredient-location garlic cellar)
+		(ingredient-location spinach garden)
+		(ingredient-location cream fridge)
+		(ingredient-location mozzarella fridge)
+		(ingredient-location chicken fridge)
+		(ingredient-location salami fridge)
+		(ingredient-location oregano pantry)
+		(ingredient-location frozen-dough freezer)
+		(ingredient-location frozen-mushrooms freezer)
+		(ingredient-location ham fridge)
+		(ingredient-location canned-olives pantry)
+		(contains canned-olives olives)
+		(contains frozen-mushrooms mushrooms)
+		(contains frozen-dough pizza-dough)
+		(contains canned-tomatoes tomatoes)
+		(contains canned-artychokes artychokes)
+		(connected kitchen pantry)
+		(connected pantry kitchen)
+		(connected kitchen hall1)
+		(connected hall1 kitchen)
+		(connected hall1 hall2)
+		(connected hall2 hall1)
+		(connected hall2 garden)
+		(connected garden hall2)
+		(connected hall2 fridge)
+		(connected fridge hall2)
+		(connected hall2 hall3)
+		(connected hall3 hall2)
+		(connected hall3 cellar)
+		(connected cellar hall3)
+		(connected hall3 garden)
+		(connected garden hall3)
+		(connected cellar freezer)
+		(connected freezer cellar)
+		(robot-location kitchen)
+	)
+)

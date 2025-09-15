@@ -1,0 +1,74 @@
+(define
+    (problem pfile01)
+    (:domain cooking)
+    (:objects
+		fridge - location
+		freezer - location
+		garden - location
+		kitchen - location
+		cellar - location
+		pantry - location
+		hall1 - location
+		hall2 - location
+		hall3 - location
+		salt - ingredient
+		flour - ingredient
+		yeast - ingredient
+		salami - cold-meat
+		canned-tomatoes - canned-ingredient
+		mozzarella - cheese
+		oregano - seasoning
+		pizza-dough - ingredient
+		tomatoes - vegetable
+		frozen-artychokes - frozen-ingredient
+		artychokes - vegetable
+		frozen-mushrooms - frozen-ingredient
+		ham - cold-meat
+		canned-olives - canned-ingredient
+		basil-leaves - fresh-herbs
+	)
+		(:htn
+            :subtasks (and 
+				(make-pizza-quattro-stagioni)
+				(make-pizza-margherita)
+		)
+	)
+	(:init
+		(ingredient-location basil-leaves garden)
+		(ingredient-location canned-tomatoes pantry)
+		(ingredient-location mozzarella fridge)
+		(ingredient-location salami fridge)
+		(ingredient-location oregano pantry)
+		(ingredient-location flour pantry)
+		(ingredient-location salt pantry)
+		(ingredient-location yeast fridge)
+		(ingredient-location frozen-artychokes freezer)
+		(ingredient-location frozen-mushrooms freezer)
+		(ingredient-location ham fridge)
+		(ingredient-location canned-olives pantry)
+		(contains canned-olives olives)
+		(contains frozen-mushrooms mushrooms)
+		(contains frozen-dough pizza-dough)
+		(contains canned-tomatoes tomatoes)
+		(contains frozen-artychokes artychokes)
+		(connected kitchen pantry)
+		(connected pantry kitchen)
+		(connected kitchen hall1)
+		(connected hall1 kitchen)
+		(connected hall1 hall2)
+		(connected hall2 hall1)
+		(connected hall2 garden)
+		(connected garden hall2)
+		(connected hall2 fridge)
+		(connected fridge hall2)
+		(connected hall2 hall3)
+		(connected hall3 hall2)
+		(connected hall3 cellar)
+		(connected cellar hall3)
+		(connected hall3 garden)
+		(connected garden hall3)
+		(connected cellar freezer)
+		(connected freezer cellar)
+		(robot-location kitchen)
+	)
+)

@@ -1,0 +1,490 @@
+(define (domain pizza)
+	(:types
+		location - object
+		ingredient - object
+		pizza - object
+		cheese - ingredient
+		seasoning - ingredient
+		meat - ingredient
+		cold-meat - ingredient
+		vegetable - ingredient
+		sauce - ingredient
+		sliced-cold-meat - cold-meat
+		fresh-herbs - ingredient
+		canned-ingredient - ingredient
+		frozen-ingredient - ingredient
+	)
+	
+	(:constants
+		kitchen - location
+		flour - ingredient
+		yeast - ingredient
+		tomato-sauce - sauce
+		mozzarella - cheese
+		oregano - seasoning
+		salt - ingredient
+		salami - cold-meat
+		basil-leaves - fresh-herbs
+		tomatoes - vegetable
+		mushrooms - vegetable
+		artychokes - vegetable
+		pizza-dough - ingredient
+		ham - cold-meat
+		olives - vegetable
+		chicken - meat
+		white-sauce - sauce
+		cream - ingredient
+		garlic - vegetable
+		parmesan - cheese
+		spinach - vegetable
+	)
+		
+	
+	(:predicates
+		(ingredient-location ?i - ingredient ?l - location)
+		(robot-location ?l - location)
+		(connected ?l1 - location ?l2 - location)
+		(robot-holding ?i - ingredient)
+		(contains ?o - object ?i - ingredient)
+	)
+	
+	(:task make-pizza-salami :parameters ())
+	
+	(:task make-pizza-margherita :parameters ())
+	
+	(:task make-pizza-chicken :parameters())
+	
+	(:task prepare-pizza-dough :parameters ())
+	
+	(:task add-grated-cheese :parameters (?c - cheese))
+	
+	(:task add-sliced-cheese :parameters (?c - cheese))
+	
+	(:task add-cold-meat :parameters (?m - cold-meat))
+	
+	(:task prepare-tomato-sauce :parameters())
+	
+	(:task add-sauce :parameters(?s - sauce))
+	
+	(:task make-pizza-quattro-stagioni :parameters())
+	
+	(:task add-artychokes :parameters())
+	
+	(:task prepare-artychokes :parameters())
+	
+	(:task add-mushrooms :parameters())
+	
+	(:task prepare-mushrooms :parameters()) 
+	
+	(:task add-olives :parameters())
+	
+	(:task prepare-white-sauce :parameters())
+	
+	(:task make-white-sauce :parameters())
+	
+	(:task add-meat :parameters (?m - meat))
+
+	(:method m-make-pizza-salami
+		:parameters ()
+		:task (make-pizza-salami)
+		:ordered-subtasks (and
+			(prepare-pizza-dough)
+			(prepare-tomato-sauce)
+			(spread-sauce tomato-sauce)
+			(sprinkle oregano)
+			(add-sliced-cheese mozzarella)
+			(add-cold-meat salami)
+			(bake-pizza)
+		)
+	)
+	
+	(:method m-make-pizza-margherita
+		:parameters ()
+		:task (make-pizza-margherita)
+		:ordered-subtasks (and
+			(prepare-pizza-dough)
+			(prepare-tomato-sauce)
+			(spread-sauce tomato-sauce)
+			(sprinkle oregano)
+			(add-sliced-cheese mozzarella)
+			(bake-pizza)
+			(add basil-leaves)
+		)
+	)
+	
+	(:method m-make-pizza-quattro-stagioni
+		:parameters ()
+		:task (make-pizza-quattro-stagioni)
+		:ordered-subtasks (and
+			(prepare-pizza-dough)
+			(prepare-tomato-sauce)
+			(spread-sauce tomato-sauce)
+			(sprinkle oregano)
+			(add-artychokes)
+			(add-mushrooms)
+			(add ham)
+			(add-olives)
+			(bake-pizza)
+		)
+	)
+	
+	(:method m-make-pizza-chicken
+		:parameters()
+		:task (make-pizza-chicken)
+		:ordered-subtasks (and
+			(prepare-pizza-dough)
+			(prepare-white-sauce)
+			(spread-sauce white-sauce)
+			(sprinkle oregano)
+			(add-meat chicken)
+			(add spinach)
+			(bake-pizza)
+		)
+	)
+	
+	(:method m-add-meat
+		:parameters (?m - meat)
+		:task (add-meat ?m)
+		:ordered-subtasks (and
+			(cook ?m)
+			(chop ?m)
+			(add ?m)
+		)
+	)
+			
+	
+	(:method m-prepare-white-sauce-1
+		:parameters (?c - canned-ingredient)
+		:task (prepare-white-sauce)
+		:ordered-subtasks (and
+			(open ?c white-sauce)
+		)
+	)
+			
+	(:method m-prepare-white-sauce-2
+		:parameters ()
+		:task (prepare-white-sauce)
+		:ordered-subtasks (and
+			(make-white-sauce)
+		)
+	)
+	
+	(:method m-make-white-sauce
+		:parameters ()
+		:task (make-white-sauce)
+		:ordered-subtasks (and
+			(grate parmesan)
+			(mince garlic)
+			(make-white-sauce-from-cream)
+		)
+	)
+	
+	(:method m-add-olives
+		:parameters (?c - canned-ingredient)
+		:task (add-olives)
+		:ordered-subtasks (and
+			(open ?c olives)
+			(drain olives)
+			(add olives)
+		)
+	)
+	
+	(:method m-add-mushrooms
+		:parameters ()
+		:task (add-mushrooms)
+		:ordered-subtasks (and
+			(prepare-mushrooms)
+			(cook mushrooms)
+			(drain mushrooms)
+			(add mushrooms)
+		)
+	)
+	
+	(:method m-prepare-mushrooms-1
+		:parameters (?f - frozen-ingredient)
+		:task (prepare-mushrooms)
+		:ordered-subtasks (
+			(thaw ?f mushrooms)
+		)
+	)
+	
+	(:method m-prepare-mushrooms-2
+		:parameters (?c - canned-ingredient)
+		:task (prepare-mushrooms)
+		:ordered-subtasks (
+			(open ?c mushrooms)
+		)
+	)
+	
+	(:method m-add-artychokes
+		:parameters ()
+		:task (add-artychokes)
+		:ordered-subtasks (and
+			(prepare-artychokes)
+			(drain artychokes)
+			(add artychokes)
+		)
+	)
+	
+	(:method m-prepare-artychokes-1
+		:parameters (?c - canned-ingredient)
+		:task (prepare-artychokes)
+		:precondition (and
+			(contains ?c artychokes)
+		)
+		:ordered-subtasks (and
+			(open ?c artychokes)
+		)
+	)
+	
+	(:method m-prepare-artychokes-1
+		:parameters (?f - frozen-ingredient)
+		:task (prepare-artychokes)
+		:ordered-subtasks (and
+			(thaw ?f artychokes)
+		)
+	)
+	
+	(:method m-add-grated-cheese
+		:parameters (?c - cheese)
+		:task (add-grated-cheese ?c)
+		:precondition (and
+			(ingredient-location ?c kitchen)
+		)
+		:ordered-subtasks (and
+			(grate ?c)
+			(sprinkle ?c)
+		)
+	)
+	
+	(:method m-add-sliced-cheese
+		:parameters (?c - cheese)
+		:task (add-sliced-cheese ?c)
+		:precondition (and
+			(ingredient-location ?c kitchen)
+		)
+		:ordered-subtasks (and
+			(slice ?c)
+			(add ?c)
+		)
+	)
+	
+	(:method m-add-cold-meat
+		:parameters (?m - cold-meat)
+		:task (add-cold-meat ?m)
+		:precondition (and
+			(ingredient-location ?m kitchen)
+		)
+		:ordered-subtasks (and
+			(slice ?m)
+			(add ?m)
+		)
+	)
+	
+	(:method m-prepare-pizza-dough-1
+		:parameters (?i - ingredient)
+		:task (prepare-pizza-dough)
+		:precondition (and
+			(contains ?i pizza-dough)
+		)
+		:ordered-subtasks (and
+			(thaw ?i pizza-dough)
+			(stretch-pizza-dough)
+		)
+	)
+	
+	(:method m-prepare-pizza-dough-2
+		:parameters ()
+		:task (prepare-pizza-dough)
+		:ordered-subtasks (and
+			(make-pizza-dough)
+			(stretch-pizza-dough)
+		)
+	)
+	
+	(:method m-prepare-tomato-sauce-1
+		:parameters (?c - canned-ingredient)
+		:task (prepare-tomato-sauce)
+		:ordered-subtasks (and
+			(open ?c tomato-sauce)
+		)
+	)
+	
+	(:method m-prepare-tomato-sauce-2
+		:parameters (?c - canned-ingredient)
+		:task (prepare-tomato-sauce)
+		:ordered-subtasks (and
+			(make-tomato-sauce-from-canned-tomatoes ?c)
+		)
+	)
+	
+	(:action open
+		:parameters (?c - canned-ingredient ?i - ingredient)
+		:precondition (and
+			(ingredient-location ?c kitchen)
+			(contains ?c ?i)
+		)
+		:effect (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action make-tomato-sauce-from-canned-tomatoes
+		:parameters (?c - canned-ingredient)
+		:precondition (and 
+			(ingredient-location ?c kitchen)
+			(contains ?c tomatoes)
+		)
+		:effect (and
+			(ingredient-location tomato-sauce kitchen)
+		)
+	)
+	
+	(:action cook
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action chop
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action thaw
+		:parameters (?f - frozen-ingredient ?i - ingredient)
+		:precondition (and
+			(ingredient-location ?f kitchen)
+			(contains ?f ?i)
+		)
+		:effect (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action make-pizza-dough
+		:parameters ()
+		:precondition (and 
+			(ingredient-location flour kitchen)
+			(ingredient-location salt kitchen)
+			(ingredient-location yeast kitchen)
+		)
+		:effect (and
+			(ingredient-location pizza-dough kitchen)
+		)
+	)
+	
+	(:action make-white-sauce-from-cream
+		:parameters ()
+		:precondition (and
+			(ingredient-location cream kitchen)
+			(ingredient-location garlic kitchen)
+			(ingredient-location parmesan kitchen)
+		)
+		:effect (and
+			(ingredient-location white-sauce kitchen)
+		)
+	)
+	
+	(:action spread-sauce
+		:parameters (?s - sauce)
+		:precondition (and
+			(ingredient-location ?s kitchen)
+		)
+	)
+	
+	(:action grate
+		:parameters (?c - cheese)
+		:precondition (and
+			(ingredient-location ?c kitchen)
+		)
+	)
+	
+	(:action drain
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action sprinkle
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action slice
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action mince
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action add
+		:parameters (?i - ingredient)
+		:precondition (and
+			(ingredient-location ?i kitchen)
+		)
+	)
+	
+	(:action stretch-pizza-dough
+		:parameters ()
+		:precondition (and
+			(ingredient-location pizza-dough kitchen)
+		)
+	)
+	
+	(:action bake-pizza
+		:parameters ()
+		:precondition (and
+			(ingredient-location pizza-dough kitchen)
+		)
+	)
+	
+	(:action move
+		:parameters (?l1 - location ?l2 - location)
+		:precondition (and 
+			(robot-location ?l1)
+			(connected ?l1 ?l2)
+		)
+		:effect (and
+			(not (robot-location ?l1))
+			(robot-location ?l2)
+		)
+	)
+	
+	(:action pick-up
+		:parameters (?l - location ?i - ingredient)
+		:precondition (and 
+			(robot-location ?l)
+			(ingredient-location ?i ?l)
+		)
+		:effect (and
+			(robot-holding ?i)
+			(not (ingredient-location ?i ?l))
+		)
+	)
+	
+	(:action put-down
+		:parameters (?l - location ?i - ingredient)
+		:precondition (and 
+			(robot-location ?l)
+			(robot-holding ?i)
+		)
+		:effect (and
+			(not (robot-holding ?i))
+			(ingredient-location ?i ?l)
+		)
+	)
+)
